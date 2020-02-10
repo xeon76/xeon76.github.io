@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xeon76.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="函数简介python函数将重复的代码，封装到函数，只要使用直接找函数函数可以增强代码的模块化和提高代码的重复利用率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数">
+<meta property="og:url" content="https://xeon76.github.io/2020/02/10/%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="小强的秘密花园">
+<meta property="og:description" content="函数简介python函数将重复的代码，封装到函数，只要使用直接找函数函数可以增强代码的模块化和提高代码的重复利用率">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-10T02:22:57.000Z">
+<meta property="article:modified_time" content="2020-02-10T09:26:46.341Z">
+<meta property="article:author" content="徐志强">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xeon76.github.io/2020/02/10/%E5%87%BD%E6%95%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>函数 | 小强的秘密花园</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小强的秘密花园</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/02/10/%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
+      <meta itemprop="name" content="徐志强">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小强的秘密花园">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          函数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-10 10:22:57 / 修改时间：17:26:46" itemprop="dateCreated datePublished" datetime="2020-02-10T10:22:57+08:00">2020-02-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="函数简介"><a href="#函数简介" class="headerlink" title="函数简介"></a>函数简介</h1><p>python函数将重复的代码，封装到函数，只要使用直接找函数<br>函数可以增强代码的模块化和提高代码的重复利用率</p>
+<a id="more"></a>
+<p>定义:<br>def 函数命([参数,参数,,,]):<br>    函数体（重复的代码）<br>注意:<br>1.必须使用关键字 def<br>2.函数体注意缩进<br>3.函数命()绑定</p>
+<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><ul>
+<li>1.随机数的产生<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">def generate_random():</span><br><span class="line">	for i in range(10):</span><br><span class="line"> 		ran &#x3D; random.randint(1,20)</span><br><span class="line"> 		print(ran,end&#x3D;&quot; &quot;)</span><br><span class="line">print(generate_random)                          #打印函数名</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">&lt;function generate_random at 0x0000027BA72E2E58&gt;</span><br><span class="line">#函数             函数名        内存地址</span><br></pre></td></tr></table></figure></li>
+<li>2.调用函数:函数名(),找到函数名并执行函数体的内容<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">generate_random()</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">10 6 3 4 5 4 8 10 6 19</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="带参数函数"><a href="#带参数函数" class="headerlink" title="带参数函数"></a>带参数函数</h2><p>def 函数名(参数，参数…):<br>    函数体</p>
+<ul>
+<li>1.求随机数的函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">def generate_random(number):      #形参：形式上的参数</span><br><span class="line">	for i in range(number): </span><br><span class="line"> 		ran &#x3D; random.randint(1,20)</span><br><span class="line"> 		print(ran,end&#x3D;&quot; &quot;)</span><br><span class="line">print(generate_random)</span><br><span class="line">generate_random(10)               #实参 实际的参数，具体的值</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">&lt;function generate_random at 0x0000027BA72E2EE8&gt;</span><br><span class="line">9 19 7 7 8 3 8 20 11 7</span><br></pre></td></tr></table></figure></li>
+<li>2.求加法的函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def add(a,b):</span><br><span class="line">	result &#x3D;a+b</span><br><span class="line"> 	print(&quot;和:&quot;,result)</span><br><span class="line">add(1,2)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">和: 3</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="函数使用"><a href="#函数使用" class="headerlink" title="函数使用"></a>函数使用</h2><ul>
+<li>1.<br>定义一个登录函数 参数：username password<br>函数体<br>判断参数传过来的username,password是否正确，如果正确则登录成功，否则打印登录失败<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def login(username,password):</span><br><span class="line">	uname &#x3D;&quot;smm&quot;</span><br><span class="line"> 	pwd &#x3D; &quot;1234&quot;</span><br><span class="line"> 	if username &#x3D;&#x3D; uname and pwd&#x3D;&#x3D;password:</span><br><span class="line"> 		print(&quot;登录成功&quot;)</span><br><span class="line"> 	else:</span><br><span class="line"> 	print(&quot;登录失败&quot;)</span><br><span class="line">username &#x3D; input(&quot;请输入姓名：&quot;)</span><br><span class="line">password &#x3D;input(&quot;请输入密码：&quot;)</span><br><span class="line">login(username,password)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">请输入姓名：smm</span><br><span class="line">请输入密码：asd</span><br><span class="line">登录失败</span><br></pre></td></tr></table></figure></li>
+<li>2.改进代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">def login(username,password):</span><br><span class="line">	uname &#x3D;&quot;smm&quot;</span><br><span class="line"> 	pwd &#x3D; &quot;1234&quot;</span><br><span class="line"> 	for i in range(3):</span><br><span class="line"> 		if username &#x3D;&#x3D; uname and pwd&#x3D;&#x3D;password:</span><br><span class="line"> 			print(&quot;登录成功&quot;)</span><br><span class="line"> 			break</span><br><span class="line"> 		else:</span><br><span class="line"> 			print(&quot;登录失败&quot;)</span><br><span class="line"> 		username &#x3D; input(&quot;请输入姓名：&quot;)</span><br><span class="line"> 		password &#x3D;input(&quot;请输入密码：&quot;)</span><br><span class="line"> 	else:</span><br><span class="line"> 		print(&quot;账户锁定&quot;)</span><br><span class="line">username &#x3D; input(&quot;请输入姓名：&quot;)</span><br><span class="line">password &#x3D;input(&quot;请输入密码：&quot;)</span><br><span class="line">login(username,password)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">请输入姓名：sadks</span><br><span class="line">请输入密码：</span><br><span class="line">登录失败</span><br><span class="line">请输入姓名：sad</span><br><span class="line">请输入密码：sda</span><br><span class="line">登录失败</span><br><span class="line">请输入姓名：ads</span><br><span class="line">请输入密码：d</span><br><span class="line">登录失败</span><br><span class="line">请输入姓名：dd</span><br><span class="line">请输入密码：</span><br><span class="line">账户锁定</span><br></pre></td></tr></table></figure></li>
+<li>3.找最大值的函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def max(iterable):</span><br><span class="line">	max &#x3D;iterable[0]</span><br><span class="line"> 	for i in iterable:</span><br><span class="line"> 		if i &gt;max:</span><br><span class="line"> 			max &#x3D;i</span><br><span class="line"> 	print(&quot;最大值&quot;,max)</span><br><span class="line">list1 &#x3D;[3,5,7,2,4,6,8]</span><br><span class="line">tuple1 &#x3D;(2,3,6,1,3,9,86,5,1)</span><br><span class="line">max(list1)</span><br><span class="line">max(tuple1)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">最大值 8</span><br><span class="line">最大值 86</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="isinstance-变量，类型关键字"><a href="#isinstance-变量，类型关键字" class="headerlink" title="isinstance(变量，类型关键字)"></a>isinstance(变量，类型关键字)</h2><ul>
+<li>1.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">isinstance(2,int)                 #返回值是布尔类型</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><ul>
+<li>写函数 min<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def min(iterable):</span><br><span class="line">	min &#x3D; iterable[0]</span><br><span class="line"> 	for i in iterable:</span><br><span class="line"> 		if min &gt;i:</span><br><span class="line"> 			min &#x3D; i</span><br><span class="line"> 	print(&quot;最小值：&quot;,min)</span><br><span class="line">list1 &#x3D;[3,5,7,2,4,6,8]</span><br><span class="line">min(list1)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">最小值： 2</span><br></pre></td></tr></table></figure></li>
+<li><ol start="2">
+<li>sort 排序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def sorted(iterable):</span><br><span class="line">	if isinstance(iterable,tuple):</span><br><span class="line"> 		print(&quot;元组不能反转和排序&quot;)</span><br><span class="line"> 	else:</span><br><span class="line"> 		for i in range(len(iterable)):</span><br><span class="line"> 			for j in range(i,len(iterable)):</span><br><span class="line"> 				if iterable[i]&gt;iterable[j]:</span><br><span class="line"> 					iterable[i],iterable[j]&#x3D;iterable[j],iterable[i]</span><br><span class="line"> 		print(iterable)</span><br><span class="line">list1 &#x3D;[3,5,7,2,4,6,8]</span><br><span class="line">tuple1 &#x3D;(2,3,6,1,3,9,86,5,1)</span><br><span class="line">sorted(list1)</span><br><span class="line">sorted(tuple1)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">[2, 3, 4, 5, 6, 7, 8]</span><br><span class="line">元组不能反转和排序</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li>3.reverse<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def reversed(iterable):</span><br><span class="line">	if isinstance(iterable,tuple):</span><br><span class="line">    	print(&quot;元组不能反转和排序&quot;)</span><br><span class="line"> 	else:</span><br><span class="line"> 		for i in range(len(iterable)&#x2F;&#x2F;2):</span><br><span class="line"> 			iterable[i],iterable[len(iterable)-1-i] &#x3D; iterable[len(iterable)-1-i],iterable[i]</span><br><span class="line"> 		print(iterable)</span><br><span class="line"> </span><br><span class="line">list1 &#x3D;[1,2,3,4]</span><br><span class="line">tuple1 &#x3D;(2,3,6,1,3,9,86,5,1)</span><br><span class="line">reversed(list1)</span><br><span class="line">reversed(tuple1)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">[4, 3, 2, 1]</span><br><span class="line">元组不能反转和排序</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate"></a>enumerate</h2><ul>
+<li>1.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">list1 &#x3D;[]</span><br><span class="line">index &#x3D; 0 </span><br><span class="line">for i in s:</span><br><span class="line">	t1 &#x3D; (index,i)</span><br><span class="line"> 	list1.append(t1)</span><br><span class="line"> 	index+&#x3D;1</span><br><span class="line">print(list1)</span><br><span class="line">print(&quot;******************&quot;) </span><br><span class="line">for index,value in list1:</span><br><span class="line">	print(index,value)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]</span><br><span class="line">******************</span><br><span class="line">0 1</span><br><span class="line">1 2</span><br><span class="line">2 3</span><br><span class="line">3 4</span><br><span class="line">4 5</span><br></pre></td></tr></table></figure></li>
+<li>2.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def enumerate(value):</span><br><span class="line">	list1 &#x3D;[]</span><br><span class="line"> 	index &#x3D; 0</span><br><span class="line"> 	for i in value:</span><br><span class="line"> 		t1 &#x3D; (index,i)</span><br><span class="line"> 		list1.append(t1)</span><br><span class="line"> 		index+&#x3D;1</span><br><span class="line"> 	print(list1) </span><br><span class="line">s &#x3D; &#123;1,2,3,4,5&#125;</span><br><span class="line">enumerate(s)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="函数之可变参数"><a href="#函数之可变参数" class="headerlink" title="函数之可变参数"></a>函数之可变参数</h1><h2 id="定义方式"><a href="#定义方式" class="headerlink" title="定义方式"></a>定义方式</h2><ul>
+<li>1.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def add(*args):                     #底层一看到*就准备好元组这个容器 </span><br><span class="line">	print(args) </span><br><span class="line">add()</span><br><span class="line">add(1)</span><br><span class="line">add(1,2)</span><br><span class="line">add(1,2,3)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">()</span><br><span class="line">(1,)</span><br><span class="line">(1, 2)</span><br><span class="line">(1, 2, 3)</span><br></pre></td></tr></table></figure></li>
+<li>2.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def add(*args):           #arguements 参数</span><br><span class="line">	sum &#x3D; 0</span><br><span class="line"> 	if len(args)&gt;0:</span><br><span class="line"> 		for i in arg:</span><br><span class="line"> 			sum+&#x3D;i</span><br><span class="line"> 		print(&quot;累加和sum:&quot;,sum)</span><br><span class="line"> 	else:</span><br><span class="line"> 		print(&quot;没有元素&quot;)</span><br><span class="line">add()</span><br><span class="line">add(1,2,3)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">没有元素</span><br><span class="line">累加和sum: 6</span><br></pre></td></tr></table></figure></li>
+<li>3.xxx计算出来的和是sum<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def add(name,*args): </span><br><span class="line">	sum &#x3D; 0</span><br><span class="line"> 	if len(args)&gt;0:</span><br><span class="line"> 		for i in args:</span><br><span class="line"> 			sum+&#x3D;i</span><br><span class="line"> 		print(&quot;&#123;&#125;累加和sum是&#123;&#125;:&quot;.format(name,sum))</span><br><span class="line"> 	else:</span><br><span class="line"> 		print(&quot;没有元素&quot;)</span><br><span class="line">add(&quot;smm&quot;,1,2,3)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">smm累加和sum是6:</span><br></pre></td></tr></table></figure>
+注意:可变参数必须放在后面 一旦出现不可变参数 必须要传入参数</li>
+<li>4.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def add(name,name1,*args): </span><br><span class="line">	sum &#x3D; 0</span><br><span class="line"> 	if len(args)&gt;0:</span><br><span class="line"> 		for i in args:</span><br><span class="line"> 			sum+&#x3D;i</span><br><span class="line"> 		print(&quot;&#123;&#125;累加和sum是&#123;&#125;:&quot;.format(name,sum))</span><br><span class="line"> 	else:</span><br><span class="line"> 		print(&quot;没有元素&quot;)</span><br><span class="line">add(&quot;smm&quot;,1,2,3)</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">smm累加和sum是5:</span><br></pre></td></tr></table></figure>
+解释<br>name = smm<br>name1 = 1<br>args = 2,3</li>
+</ul>
+<h1 id="关键字参数和默认值参数"><a href="#关键字参数和默认值参数" class="headerlink" title="关键字参数和默认值参数"></a>关键字参数和默认值参数</h1><p>##关键字参数</p>
+<ul>
+<li>1.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def add(a,b&#x3D;10):            #此时的b就是默认值</span><br><span class="line">	result &#x3D; a+b</span><br><span class="line"> 	print(a+b)</span><br><span class="line">add(5)</span><br><span class="line">add(4,7)                    #此时7就会覆盖b原来的默认值</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">15</span><br><span class="line">11</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">- 2.</span><br></pre></td></tr></table></figure>
+def add(a,b=10,c=4):<br>  print(a,b,c)<br>  result = a+b+4<br>   print(a+b)<br>add(5)<br>add(4,7)<br>add(4,c=7)                  #如果想将7赋值给C 则需要结合关键字key使用</li>
+</ul>
+<p>输出:<br>5 10 4<br>15<br>4 7 4<br>11<br>4 10 7<br>14</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 3.打印每位同学的姓名年龄</span><br></pre></td></tr></table></figure>
+<p>students = {“001”:(“桑妹妹”,21),”002”:(“黄健”,21),”003”:(“强者”,21)}<br>def print_boy(persons):<br>    if isinstance(persons,dict):<br>         values = persons.values()<br>         print(values)<br>         for name,age in values:<br>             print(“{}的年龄是{}”.format(name,age))<br>print_boy(students)</p>
+<p>输出:<br>dict_values([(‘桑妹妹’, 21), (‘黄健’, 21), (‘强者’, 21)])<br>桑妹妹的年龄是21<br>黄健的年龄是21<br>强者的年龄是21</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## **</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def func(**kwargs):      #只要外界给函数传送值，送的值必须是 key = value<br>    print(kwargs)<br>func(a=1,b=2,c=3)        #关键字<br>func()</p>
+<p>输出:<br>{‘a’: 1, ‘b’: 2, ‘c’: 3}<br>{}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 2.</span><br></pre></td></tr></table></figure>
+<p>dict1={“001”:”python”,”002”:”C”}<br>def func(**kwargs):<br>    print(kwargs)<br>func(dict1)</p>
+<p>输出:<br>TypeError Traceback (most recent call last)<br><ipython-input-12-c7566e906de1> in <module><br> 2 def func(**kwargs):<br> 3 print(kwargs) —-&gt; 4 func(dict1) TypeError: func() takes 0 positional arguments but 1 was given</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 3.</span><br></pre></td></tr></table></figure>
+<p>dict1={“001”:”python”,”002”:”C”}<br>def func(<strong>kwargs):<br>    print(kwargs)<br>func(</strong>dict1)<br>#<strong>dict1:给函数赋值的时候 传递实参：</strong>变量名 将字典进行拆包<br>#func(“001”=”python”,”002”=”C”)</p>
+<p>输出:<br>{‘001’: ‘python’, ‘002’: ‘C’}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 4.打印每位同学的姓名年龄</span><br></pre></td></tr></table></figure>
+<p>students = {“001”:(“桑妹妹”,21),”002”:(“黄健”,21),”003”:(“强者”,21)}<br>def print_boy(<strong>persons):<br>    if isinstance(persons,dict):<br>         values = persons.values()<br>         print(values)<br>         for name,age in values:<br>             print(“{}的年龄是{}”.format(name,age))<br>print_boy(</strong>students)</p>
+<p>输出:<br>dict_values([(‘桑妹妹’, 21), (‘黄健’, 21), (‘强者’, 21)])<br>桑妹妹的年龄是21<br>黄健的年龄是21<br>强者的年龄是21</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 装包 拆包</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def aa(<strong>kwargs):<br>    print(kwargs)<br>aa(a =1,b=2)                     #装包<br>dict1 = {“a”:1,”b”:2}            #如果在开发的时候，已知有一个字典<br>aa(</strong>dict1)                      #拆包</p>
+<p>输出:<br>{‘a’: 1, ‘b’: 2}<br>{‘a’: 1, ‘b’: 2}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 2.</span><br></pre></td></tr></table></figure>
+<p>def ab(a,b,<em>c,*</em>d):<br>    print(a,b,c,d)<br>ab(1,2,1,2,2,3,f=2,g=4)<br>ab(1,2,f=2,g=4)<br>ab(1,2,3,g=4)</p>
+<p>输出:<br>1 2 (1, 2, 2, 3) {‘f’: 2, ‘g’: 4}<br>1 2 () {‘f’: 2, ‘g’: 4}<br>1 2 (3,) {‘g’: 4}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 可变参数之列表拆装</span><br><span class="line">##易错点</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def func(a,*args):<br>    print(a,args)<br>func(2,3,4,5)<br>func(2,[1,2,3,4])<br>func(2,3,[1,2,3,4,5])<br>func(5,6,(4,5,7),9)</p>
+<p>输出:<br>2 (3, 4, 5)<br>2 ([1, 2, 3, 4],)<br>2 (3, [1, 2, 3, 4, 5])<br>5 (6, (4, 5, 7), 9)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 2.</span><br></pre></td></tr></table></figure>
+<p>def func(a,b=10,c=3,**kwargs):<br>    print(a,b,c,kwargs)<br>func(1)<br>func(2,b=2)<br>func(3,4,5,a=1,b=2)            #这边产生重复了</p>
+<p>输出:<br>1 10 3 {}<br>2 2 3 {}<br>————————————————————————— TypeError Traceback (most recent call last)<br><ipython-input-2-6a70459cf8d6> in <module><br> 3 func(1)<br> 4 func(2,b=2) —-&gt; 5 func(3,4,5,a=1,b=2) TypeError: func() got multiple values for argument ‘a’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 3.</span><br></pre></td></tr></table></figure>
+<p>def func(a,<em>args,*</em>kwargs):<br>    print(a,args,kwargs)<br>t = (1,2,3,4)<br>func(1,t)<br>l =[1,2,3,4]<br>func(l,l,c=9,b=6)<br>func(l,l,a=9,b=6)      #[1,2,3,4],([1,2,3,4],) {“a”:9,”b”:6}</p>
+<p>输出:<br>1 ((1, 2, 3, 4),) {}<br>[1, 2, 3, 4] ([1, 2, 3, 4],) {‘c’: 9, ‘b’: 6}<br>————————————————————————— TypeError Traceback (most recent call last)<br><ipython-input-5-dbbf1cc9f7c8> in <module><br> 5 l =[1,2,3,4]<br> 6 func(l,l,c=9,b=6) —-&gt; 7 func(l,l,a=9,b=6) #[1,2,3,4],([1,2,3,4],) {“a”:9,”b”:6} TypeError: func() got multiple values for argument ‘a’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 列表拆装</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def func(a,<em>args,*</em>kwargs):<br>    print(a,args,kwargs)<br>dict1 = {‘1’:”a”,’2’:”b”,’3’:”c”}<br>l =[2,3,4,6]<br>func(1,2,3,4,5,<strong>dict1)    #—–&gt;func(1,2,3,4,5,1:”a”,2:”b”,3:”c”) #问：列表可以通过什么方式这样<br>func(1,*l,</strong>dict1)</p>
+<p>输出:<br>1 (2, 3, 4, 5) {‘1’: ‘a’, ‘2’: ‘b’, ‘3’: ‘c’}<br>1 (2, 3, 4, 6) {‘1’: ‘a’, ‘2’: ‘b’, ‘3’: ‘c’}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 2.案例</span><br></pre></td></tr></table></figure>
+<p>def func1(name,<em>args):<br>    if len(args)&gt;0:<br>         for i in args:<br>             print(“{}学过了{}”.format(name,i))<br>     else:<br>         print(“没有学过任何课程”)<br>course =[“html”,”mysql”,”python”]<br>func1(“smm”,course)<br>func1(“smm”,</em>course)        #这边拆包了</p>
+<p>输出:<br>smm学过了[‘html’, ‘mysql’, ‘python’]<br>smm学过了html<br>smm学过了mysql<br>smm学过了python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 返回值和函数嵌套调用</span><br><span class="line">## 返回值</span><br><span class="line">将函数中运算的结果用过return关键字 扔出来</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def add(a,b):<br>    result = a+b<br>     #print(result) 仅仅限于打印在总端上 辅助查看的，但是在外部是无法使用的<br>     return result<br>x = add(1,2)            #return 把result扔出来送给x<br>print(x)</p>
+<p>输出:<br>3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">注意</span><br><span class="line">1.retuen 后面可以是一个参数， 接收的时候x &#x3D; add(1,2)</span><br><span class="line">2.return后面也可以是多个参数，如果是多个参数的话则底层将多个参数放在一个元组中，将元组作为整体</span><br><span class="line">3.接收的时候也可以是多个，return &quot;hello&quot;,&quot;world&quot; x,y &#x3D;(&quot;hello&quot;,&quot;world&quot;) ----&gt;x &#x3D; &quot;hello&quot;,y &#x3D; &quot;w</span><br><span class="line"></span><br><span class="line">## 嵌套</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def a():<br>    print(“aaa”)<br>def b():<br>     a()<br>     print(“bb”)<br>def c():<br>     b()<br>    print(“cc”)<br>c()</p>
+<p>输出:<br>aaa<br>bb<br>cc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 全局变量和局部变量</span><br><span class="line">## 定义</span><br><span class="line">- 1.</span><br></pre></td></tr></table></figure>
+<p>def func():<br>    #函数体内部声明的变量，局部变量 局部变量仅限于在函数内部使用<br>     s = “abcd”<br>     s +=”x”<br>    print(s)</p>
+<p>print(s)           #会报错</p>
+<p>输出:<br>————————————————————————— NameError Traceback (most recent call last)<br><ipython-input-17-fff4c42effe5> in <module><br> 9 print(s)<br> 10<br>—&gt; 11 print(s) #会报错 NameError: name ‘s’ is not defined</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 2.声明在函数外层是全局的，所有函数都可以访问</span><br></pre></td></tr></table></figure>
+<p>name =”smm”<br>def func():<br>    print(name)<br>func()</p>
+<p>输出:<br>smm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 3.</span><br></pre></td></tr></table></figure>
+<p>name = “smm”<br>def func2():<br>    name = “hj” #局部变量和全局变量同名<br>     name+=”摸鸡鸡” #这里改的是函数内部的变量<br>     print(name)<br>func2()</p>
+<p>输出:<br>hj摸鸡鸡</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 4.函数内部的变量可以随便修改赋值，但是全局变量就不能在函数体中进行</span><br></pre></td></tr></table></figure>
+<p>name =”smm”<br>def func():<br>    print(name)<br>     name +=”摸鸡鸡”<br>func()</p>
+<p>输出:<br>————————————————————————— UnboundLocalError Traceback (most recent call last)<br><ipython-input-23-5cd506999a46> in <module><br> 3 print(name)<br> 4 name +=”摸鸡鸡” —-&gt; 5 func() <ipython-input-23-5cd506999a46> in func()<br> 1 name =”smm”<br> 2 def func(): —-&gt; 3 print(name)<br> 4 name +=”摸鸡鸡”<br> 5 func() UnboundLocalError: local variable ‘name’ referenced before assignment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 5.不修改全局变量，只是获取打印，但是如果要发生修改全局变量，则需要在函数内部声明</span><br></pre></td></tr></table></figure>
+<p>name =”smm”<br>def func():<br>    global name<br>     print(name)<br>     name +=”摸鸡鸡”<br>     print(name)<br>func()<br>print(“<strong><strong><strong>**</strong></strong></strong>“)<br>print(name)</p>
+<p>输出:<br>smm<br>smm摸鸡鸡</p>
+<hr>
+<p>smm摸鸡鸡</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 6.</span><br><span class="line">当全局变量如果是不可变在函数中进行修改需要添加global关键字 如果全局变量是可变的，在函数中修改的时候就不需要添加global</span><br></pre></td></tr></table></figure>
+<p>name = “桑妹妹”<br>list1 =[1,2,3,4]<br>def func():<br>    name =”黄健”<br>     print(name)<br>def func1():<br>     global name<br>     print(name)<br>     name+=”正妹”<br>     print(name)<br>     list1.append(9)<br>     print(list1)<br>def func2():<br>     name1 = “强少”<br>     name1+=”帅”<br>     print(name1)<br>     global name<br>     print(name)<br>func()<br>func1()<br>func2()</p>
+<p>输出:<br>黄健<br>桑妹妹<br>桑妹妹正妹<br>[1, 2, 3, 4, 9]<br>强少帅<br>桑妹妹正妹</p>
+<pre><code>
+# 内部函数和内部函数的变量访问</code></pre>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/08/%E5%85%83%E7%B4%A0%E5%AD%97%E5%85%B8%E9%9B%86%E5%90%88/" rel="prev" title="元素字典集合">
+      <i class="fa fa-chevron-left"></i> 元素字典集合
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#函数简介"><span class="nav-number">1.</span> <span class="nav-text">函数简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义函数"><span class="nav-number">1.1.</span> <span class="nav-text">定义函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带参数函数"><span class="nav-number">1.2.</span> <span class="nav-text">带参数函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数使用"><span class="nav-number">1.3.</span> <span class="nav-text">函数使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isinstance-变量，类型关键字"><span class="nav-number">1.4.</span> <span class="nav-text">isinstance(变量，类型关键字)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业"><span class="nav-number">1.5.</span> <span class="nav-text">作业</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#enumerate"><span class="nav-number">1.6.</span> <span class="nav-text">enumerate</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数之可变参数"><span class="nav-number">2.</span> <span class="nav-text">函数之可变参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义方式"><span class="nav-number">2.1.</span> <span class="nav-text">定义方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关键字参数和默认值参数"><span class="nav-number">3.</span> <span class="nav-text">关键字参数和默认值参数</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="徐志强"
+      src="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
+  <p class="site-author-name" itemprop="name">徐志强</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xeon76" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xeon76" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">哔哩哔哩</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">徐志强</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
