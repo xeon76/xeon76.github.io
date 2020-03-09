@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xeon76.github.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="图像的加载与保存，以及摄像头的调用基础格式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图像加载与保存和色彩空间和像素运算">
+<meta property="og:url" content="https://xeon76.github.io/2020/03/09/%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E4%B8%8E%E4%BF%9D%E5%AD%98%E5%92%8C%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E5%92%8C%E5%83%8F%E7%B4%A0%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="小强的秘密花园">
+<meta property="og:description" content="图像的加载与保存，以及摄像头的调用基础格式">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-09T15:08:16.000Z">
+<meta property="article:modified_time" content="2020-03-09T15:17:57.560Z">
+<meta property="article:author" content="徐志强">
+<meta property="article:tag" content="opencv">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xeon76.github.io/2020/03/09/%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E4%B8%8E%E4%BF%9D%E5%AD%98%E5%92%8C%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E5%92%8C%E5%83%8F%E7%B4%A0%E8%BF%90%E7%AE%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>图像加载与保存和色彩空间和像素运算 | 小强的秘密花园</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小强的秘密花园</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/03/09/%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E4%B8%8E%E4%BF%9D%E5%AD%98%E5%92%8C%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E5%92%8C%E5%83%8F%E7%B4%A0%E8%BF%90%E7%AE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
+      <meta itemprop="name" content="徐志强">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小强的秘密花园">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图像加载与保存和色彩空间和像素运算
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-09 23:08:16 / 修改时间：23:17:57" itemprop="dateCreated datePublished" datetime="2020-03-09T23:08:16+08:00">2020-03-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opencv/" itemprop="url" rel="index">
+                    <span itemprop="name">opencv</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="图像的加载与保存，以及摄像头的调用"><a href="#图像的加载与保存，以及摄像头的调用" class="headerlink" title="图像的加载与保存，以及摄像头的调用"></a>图像的加载与保存，以及摄像头的调用</h1><h2 id="基础格式"><a href="#基础格式" class="headerlink" title="基础格式"></a>基础格式</h2><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line">src &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\yun.jpg&quot;)</span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src)</span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h2 id="摄像头调用"><a href="#摄像头调用" class="headerlink" title="摄像头调用"></a>摄像头调用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line">import numpy as np</span><br><span class="line">def get_image_info(image):</span><br><span class="line">    print(image.shape)</span><br><span class="line">    print(image.size)</span><br><span class="line">    print(image.dtype)</span><br><span class="line">    </span><br><span class="line">def video_demo():</span><br><span class="line">    capture &#x3D; cv.VideoCapture(0)    #这句话可以打开电脑上的相机  这边代表电脑摄像机的摄像头 同时如果想读取视频，只要填写视频的路径即可s</span><br><span class="line">    while True:</span><br><span class="line">        ret,frame &#x3D; capture.read()  #frame是视频中的每一帧</span><br><span class="line">        frame &#x3D; cv.flip(frame,1)    #摄像机镜头进行反转</span><br><span class="line">        cv.imshow(&quot;video&quot;,frame)</span><br><span class="line">        c &#x3D; cv.waitKey(10)</span><br><span class="line">        if c&amp;0xff&#x3D;&#x3D;ord(&quot;q&quot;):</span><br><span class="line">            break</span><br><span class="line">    </span><br><span class="line">src &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\yun.jpg&quot;)</span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src)</span><br><span class="line">get_image_info(src)</span><br><span class="line">cv.imwrite(r&quot;C:\Users\22107\Desktop\picture\1\yun1.png&quot;,src)    #注意这边保存图片要起个名字而且要有后缀比如代码中的yun1.png</span><br><span class="line"># video_demo()</span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h1 id="numpy"><a href="#numpy" class="headerlink" title="numpy"></a>numpy</h1><h2 id="普通用法"><a href="#普通用法" class="headerlink" title="普通用法"></a>普通用法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">def access_pixels(image):</span><br><span class="line">    print(image.shape)</span><br><span class="line">    height &#x3D; image.shape[0]</span><br><span class="line">    width &#x3D; image.shape[1]</span><br><span class="line">    channels &#x3D; image.shape[2]</span><br><span class="line">    print(&quot;width:%s,height:%s,channels:%s&quot;%(width,height,channels))</span><br><span class="line">    for row in range(height):</span><br><span class="line">        for col in range(width):</span><br><span class="line">            for c in range(channels):</span><br><span class="line">                pv &#x3D; image[row,col,c]</span><br><span class="line">                image[row,col,c] &#x3D; 255 - pv</span><br><span class="line">    cv.imshow(&quot;pixels_demo&quot;,image)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">def inverse(image):</span><br><span class="line">    dst &#x3D; cv.bitwise_not(image)</span><br><span class="line">    cv.imshow(&quot;image&quot;,dst)</span><br><span class="line">    #这种方法相比相面那个方法，效果一样，但是时间会缩短许多</span><br><span class="line">    </span><br><span class="line">def create_image():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    #这边创建的是一个三通道的图片</span><br><span class="line">    img &#x3D; np.zeros((400,400,3),np.uint8)</span><br><span class="line">    img[:,:,0] &#x3D; 255     #将黑色图像变成蓝色图像</span><br><span class="line">    cv.imshow(&quot;new image&quot;,img)</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    </span><br><span class="line">    #这边创建一个单通道的图片</span><br><span class="line">    img &#x3D; np.zeros((400,400,1),np.uint8)</span><br><span class="line">    img[:,:,0] &#x3D; np.ones((400,400))*127     #这边也可以直接写127</span><br><span class="line">    cv.imshow(&quot;new image&quot;,img)</span><br><span class="line">    cv.imwrite(r&quot;C:\Users\22107\Desktop\picture\1\1.png&quot;,img)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"># src &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\yun.jpg&quot;)</span><br><span class="line"># cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line"># cv.imshow(&quot;image&quot;,src)</span><br><span class="line"># t1 &#x3D; cv.getTickCount()     #这个程序用来计算程序运算时间 注意一下这个格式</span><br><span class="line"># access_pixels(src)</span><br><span class="line"># t2 &#x3D; cv.getTickCount()</span><br><span class="line"># print(&quot;消耗时间:&quot;,(t2-t1)&#x2F;cv.getTickFrequency())</span><br><span class="line">create_image()</span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h2 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">m1 &#x3D; np.ones([3,3])</span><br><span class="line">m1.fill(9)     #全部填充为9</span><br><span class="line">print(m1)</span><br></pre></td></tr></table></figure>
+
+<h1 id="色彩空间"><a href="#色彩空间" class="headerlink" title="色彩空间"></a>色彩空间</h1><h2 id="不同空间转换"><a href="#不同空间转换" class="headerlink" title="不同空间转换"></a>不同空间转换</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line"></span><br><span class="line">def color_space_demo(image):</span><br><span class="line">    gray &#x3D; cv.cvtColor(image,cv.COLOR_BGR2GRAY)</span><br><span class="line">    cv.imshow(&quot;gary&quot;,gray)</span><br><span class="line">    hsv &#x3D; cv.cvtColor(image,cv.COLOR_BGR2HSV)</span><br><span class="line">    cv.imshow(&quot;hsv&quot;,hsv)</span><br><span class="line">    yuv &#x3D; cv.cvtColor(image,cv.COLOR_BGR2YUV)</span><br><span class="line">    cv.imshow(&quot;yuv&quot;,yuv)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">src &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\yun.jpg&quot;)</span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src)</span><br><span class="line">color_space_demo(src)</span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h2 id="应用以及视频调用"><a href="#应用以及视频调用" class="headerlink" title="应用以及视频调用"></a>应用以及视频调用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">def extrace_object_demo():</span><br><span class="line">    capture &#x3D; cv.VideoCapture(r&quot;C:\Users\22107\Desktop\picture\test.mp4&quot;)</span><br><span class="line">    while(True):</span><br><span class="line">        ret,frame &#x3D; capture.read()   #视频中有值的画返回ret真，直到视频最后一帧返回假</span><br><span class="line">        if ret&#x3D;&#x3D;False:</span><br><span class="line">            break</span><br><span class="line">        hsv &#x3D; cv.cvtColor(frame,cv.COLOR_BGR2HSV)</span><br><span class="line">        lower_hsv&#x3D; np.array([37,43,46])</span><br><span class="line">        upper_hsv &#x3D; np.array([77,255,255])</span><br><span class="line">        mask &#x3D; cv.inRange(hsv,lowerb&#x3D;lower_hsv,upperb&#x3D;upper_hsv)</span><br><span class="line">        dst &#x3D; cv.bitwise_and(frame,frame,mask&#x3D;mask)       #注意这种格式</span><br><span class="line">        cv.imshow(&quot;video&quot;,frame)</span><br><span class="line">        #cv.imshow(&quot;mask&quot;,mask)</span><br><span class="line">        cv.imshow(&quot;dst&quot;,dst)</span><br><span class="line">        c &#x3D; cv.waitKey(40)</span><br><span class="line">        if c &#x3D;&#x3D;ord(&quot;q&quot;):</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">src &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\yun.jpg&quot;)</span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src)</span><br><span class="line">extrace_object_demo()</span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h2 id="通道分离"><a href="#通道分离" class="headerlink" title="通道分离"></a>通道分离</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#通道分离</span><br><span class="line"></span><br><span class="line">import cv2 as cv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">src &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\yun.jpg&quot;)</span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src)</span><br><span class="line"></span><br><span class="line">#三个通道分离</span><br><span class="line">b,g,r &#x3D; cv.split(src)</span><br><span class="line"># cv.imshow(&quot;red&quot;,r)</span><br><span class="line"># cv.imshow(&quot;green&quot;,g)</span><br><span class="line"># cv.imshow(&quot;blue&quot;,b)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#将其中一个通道改为0</span><br><span class="line"># src[:,:,2] &#x3D; 0</span><br><span class="line"># cv.imshow(&quot;changed image&quot;,src)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#将分离的三个通道合并</span><br><span class="line">src &#x3D; cv.merge([b,g,r])    #注意这边要输入数组</span><br><span class="line">cv.imshow(&quot;changed image&quot;,src)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h1 id="像素运算"><a href="#像素运算" class="headerlink" title="像素运算"></a>像素运算</h1><h2 id="加减乘除"><a href="#加减乘除" class="headerlink" title="加减乘除"></a>加减乘除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">def add_demo(m1,m2):         #图像相加</span><br><span class="line">    dst &#x3D; cv.add(m1,m2)</span><br><span class="line">    cv.imshow(&quot;add&quot;,dst)</span><br><span class="line"></span><br><span class="line">def subtract_demo(m1,m2):    #图像相减</span><br><span class="line">    dst &#x3D; cv.subtract(m1,m2)</span><br><span class="line">    cv.imshow(&quot;subtract&quot;,dst)</span><br><span class="line">    </span><br><span class="line">def divide_demo(m1,m2):    #图像相除</span><br><span class="line">    dst &#x3D; cv.divide(m1,m2)</span><br><span class="line">    cv.imshow(&quot;divide&quot;,dst)    </span><br><span class="line"></span><br><span class="line">def multiply_demo(m1,m2):    #图像相除</span><br><span class="line">    dst &#x3D; cv.multiply(m1,m2)</span><br><span class="line">    cv.imshow(&quot;multiply&quot;,dst)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">def others(m1,m2):</span><br><span class="line">    M1 &#x3D; cv.mean(m1)</span><br><span class="line">    M2 &#x3D; cv.mean(m2)</span><br><span class="line">    print(M1)</span><br><span class="line">    print(M2)</span><br><span class="line">    </span><br><span class="line">    h,w &#x3D; m1.shape[0:2]</span><br><span class="line">    img &#x3D; np.ones([h,w],np.uint8)</span><br><span class="line">    m,dev &#x3D; cv.meanStdDev(img)   #返回均值和标准方差</span><br><span class="line">    print(m)     #均值 </span><br><span class="line">    print(dev)   #标准方差</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">src1 &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\1\yun1.jpg&quot;)</span><br><span class="line">src2 &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\1\three.jpg&quot;)</span><br><span class="line">print(src1.shape)</span><br><span class="line">print(src2.shape)</span><br><span class="line"></span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src1)                 #千万注意image和下面的image1名字不能重复，否则只会显示一张照片</span><br><span class="line">cv.imshow(&quot;image1&quot;,src2)</span><br><span class="line"></span><br><span class="line"># add_demo(src1,src2)</span><br><span class="line"># subtract_demo(src1,src2)</span><br><span class="line"># divide_demo(src1,src2)</span><br><span class="line"># multiply_demo(src1,src2)</span><br><span class="line">others(src1,src2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import cv2 as cv</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def logic_demo(m1,m2):         #逻辑与运算  如果一张彩色图片与黑白相间的图像与运算那么得到的图像和白色相交的部分将保持，其他地方变为黑色</span><br><span class="line">    dst &#x3D; cv.bitwise_and(m1,m2)</span><br><span class="line">#     dst &#x3D; cv.bitwise_not(m1,m2)</span><br><span class="line">#     dst &#x3D; cv.bitwise_or(m1,m2)</span><br><span class="line">#     dst &#x3D; cv.bitwise_xor(m1,m2)</span><br><span class="line">    </span><br><span class="line">    cv.imshow(&quot;and&quot;,dst)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">def contrast_brightness_demo(image,c,b):    #对比度亮度调整</span><br><span class="line">    h,w,ch &#x3D; image.shape</span><br><span class="line">    blank &#x3D; np.zeros([h,w,ch],image.dtype)</span><br><span class="line">    dst &#x3D; cv.addWeighted(image,c,blank,1-c,b)</span><br><span class="line">    cv.imshow(&quot;con-bri-demo&quot;,dst)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">src1 &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\1\yun1.jpg&quot;)</span><br><span class="line">src2 &#x3D; cv.imread(r&quot;C:\Users\22107\Desktop\picture\1\three.jpg&quot;)</span><br><span class="line">cv.namedWindow(&quot;image&quot;,cv.WINDOW_AUTOSIZE)</span><br><span class="line">cv.imshow(&quot;image&quot;,src1)                 #千万注意image和下面的image1名字不能重复，否则只会显示一张照片</span><br><span class="line">cv.imshow(&quot;image1&quot;,src2)</span><br><span class="line"></span><br><span class="line">#logic_demo(src1,src2)</span><br><span class="line"></span><br><span class="line">contrast_brightness_demo(src1,1.2,10)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cv.waitKey(0)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/opencv/" rel="tag"># opencv</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/09/%E5%83%8F%E7%B4%A0%E8%BF%90%E7%AE%97/" rel="prev" title="像素运算">
+      <i class="fa fa-chevron-left"></i> 像素运算
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像的加载与保存，以及摄像头的调用"><span class="nav-number">1.</span> <span class="nav-text">图像的加载与保存，以及摄像头的调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础格式"><span class="nav-number">1.1.</span> <span class="nav-text">基础格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摄像头调用"><span class="nav-number">1.2.</span> <span class="nav-text">摄像头调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#numpy"><span class="nav-number">2.</span> <span class="nav-text">numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#普通用法"><span class="nav-number">2.1.</span> <span class="nav-text">普通用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#填充"><span class="nav-number">2.2.</span> <span class="nav-text">填充</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#色彩空间"><span class="nav-number">3.</span> <span class="nav-text">色彩空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不同空间转换"><span class="nav-number">3.1.</span> <span class="nav-text">不同空间转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用以及视频调用"><span class="nav-number">3.2.</span> <span class="nav-text">应用以及视频调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通道分离"><span class="nav-number">3.3.</span> <span class="nav-text">通道分离</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#像素运算"><span class="nav-number">4.</span> <span class="nav-text">像素运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加减乘除"><span class="nav-number">4.1.</span> <span class="nav-text">加减乘除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑运算"><span class="nav-number">4.2.</span> <span class="nav-text">逻辑运算</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="徐志强"
+      src="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
+  <p class="site-author-name" itemprop="name">徐志强</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xeon76" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xeon76" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bilibili.com/" title="https:&#x2F;&#x2F;www.bilibili.com&#x2F;" rel="noopener" target="_blank">哔哩哔哩</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">徐志强</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
