@@ -46,20 +46,20 @@
   };
 </script>
 
-  <meta name="description" content="Tensorflow基础操作创建tensor1.tf.convert_to_tensor()numpy类型转换为tensor类型">
+  <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081import tensorflow as tffrom tensorflow import">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tensorflow操作">
-<meta property="og:url" content="https://xeon76.github.io/2020/03/31/Tensorflow%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="手写数字识别dense实战">
+<meta property="og:url" content="https://xeon76.github.io/2020/04/01/%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%ABdense%E5%AE%9E%E6%88%98/index.html">
 <meta property="og:site_name" content="小强的秘密花园">
-<meta property="og:description" content="Tensorflow基础操作创建tensor1.tf.convert_to_tensor()numpy类型转换为tensor类型">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081import tensorflow as tffrom tensorflow import">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-31T15:44:43.000Z">
-<meta property="article:modified_time" content="2020-03-31T15:45:57.089Z">
+<meta property="article:published_time" content="2020-04-01T15:10:12.000Z">
+<meta property="article:modified_time" content="2020-04-01T15:13:26.686Z">
 <meta property="article:author" content="徐志强">
 <meta property="article:tag" content="Tensorflow">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://xeon76.github.io/2020/03/31/Tensorflow%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="https://xeon76.github.io/2020/04/01/%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%ABdense%E5%AE%9E%E6%88%98/">
 
 
 <script id="page-configurations">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>Tensorflow操作 | 小强的秘密花园</title>
+  <title>手写数字识别dense实战 | 小强的秘密花园</title>
   
 
 
@@ -180,7 +180,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/03/31/Tensorflow%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/04/01/%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%ABdense%E5%AE%9E%E6%88%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
@@ -193,7 +193,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Tensorflow操作
+          手写数字识别dense实战
         </h1>
 
         <div class="post-meta">
@@ -204,7 +204,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-31 23:44:43 / 修改时间：23:45:57" itemprop="dateCreated datePublished" datetime="2020-03-31T23:44:43+08:00">2020-03-31</time>
+              <time title="创建时间：2020-04-01 23:10:12 / 修改时间：23:13:26" itemprop="dateCreated datePublished" datetime="2020-04-01T23:10:12+08:00">2020-04-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,78 +229,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Tensorflow基础操作"><a href="#Tensorflow基础操作" class="headerlink" title="Tensorflow基础操作"></a>Tensorflow基础操作</h1><h2 id="创建tensor"><a href="#创建tensor" class="headerlink" title="创建tensor"></a>创建tensor</h2><p>1.tf.convert_to_tensor()<br>numpy类型转换为tensor类型</p>
-<a id="more"></a>
-
-<p>2.tf.zeros([])<br>生成形状为[]的全零数组 </p>
-<p>3.tf.zeros_like(a)<br>生成形状和a相同的全零数组</p>
-<p>4.tf.ones([])<br>生成形状为[]的全一数组</p>
-<p>5.tf.ones_like(a)<br>生成形状和a相同的全一数组</p>
-<p>6.tf.fill([],a)<br>前面是创建的形状，后面a是填充的数字</p>
-<p>7.tf.random.normal([],mean=,stddev=)<br>正太分布,默认0，1分布 mean均值,stddev方差</p>
-<p>8.tf.random.truncated_normal([],mean=,stddev=)   ???</p>
-<p>9.tf.random.uniform([],minval=,maxval=)<br>均匀分布 minval最小值 maxval最大值</p>
-<p>10.tf.random.shuttle([])<br>随机打散 这边[]里面放的是需要打散的序列，上面那些放的是打散的形状</p>
-<p>11.tf.gather(a,idx)</p>
-<p>12.tf.one_hot(y,depth=)<br>将y转换为深度为depth的独热编码</p>
-<p>13.tf.keras.losses.mse(y,out)<br>求y与out之间的均方差，要注意输出，具体看PPT</p>
-<p>14.tf.reduce_mean()</p>
-<p>15.net.layers.Dense(10)<br>创建10个神经元节点</p>
-<p>16.net.build([])<br>[]为输入神经元数据的形状</p>
-<p>17.net.kernel<br>w@x+b中的w</p>
-<p>18.net.bias<br>w@x+b中的b</p>
-<h2 id="索引和切片"><a href="#索引和切片" class="headerlink" title="索引和切片"></a>索引和切片</h2><p>1.tf.gather(a,axis=d,indices=[b,c]) 选取第d个维度，然后把这个维度中的第b,c个vector抽取出来，只能对一个维度进行操作</p>
-<p>2.tf.gather_nd(a,[[],[],[]])<br>可以对多个维度进行操作，具体操作见PPT</p>
-<p>3.tf.boolean_mask(a,mask=[],axis=) mask是一个布尔数组，axis默认为0，mask的形状要与轴对应，功能取出mask中True对应a位置中的元素 </p>
-<p>##维度变换<br>1.tf.reshape(a,[b,c])<br>将a的形状转换为[b,c],注意这个操作不能改变a数据本身</p>
-<p>2.tf.transpose(a,perm=[])<br>可以改变a数据本身，具体操作原理见PPT</p>
-<p>3.tf.expand_dims(a,axis=)<br>在指定维度添加维度，如果给定轴是正数，则在轴之前添加，如果给定负数，在轴之后添加</p>
-<p>4.tf.squeeze(a)<br>删除a中维数为1的全部维数，也可以指定删除某个维数，只要加一个axis=即可</p>
-<h2 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h2><p>1.tf.broadcast_to(a,[])<br>将a广播到[]的形状，前提是a的形状与[]匹配，才可以进行广播</p>
-<p>2.tf.tile(a,[1,2])<br>假如a是二维的，那么第0个轴复制一次，表示不变，第1个轴复制两次，变为原来两倍</p>
-<h2 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h2><p>1.+-*/ 矩阵对应元素运算</p>
-<p>2.tf.math.log(a)</p>
-<p>3.tf.exp(a)</p>
-<p>4.tf.pow(a)  三次方</p>
-<p>5.tf.sqrt(a) </p>
-<p>6.a@b 矩阵相乘</p>
-<p>7.tf.manual(a,b) 矩阵相乘</p>
-<h1 id="tensorflow高阶操作"><a href="#tensorflow高阶操作" class="headerlink" title="tensorflow高阶操作"></a>tensorflow高阶操作</h1><h2 id="合并与分割"><a href="#合并与分割" class="headerlink" title="合并与分割"></a>合并与分割</h2><p>1.tf.contact([a,b],axis=)<br>在哪个轴上拼接a,b两个数组</p>
-<p>2.tf.stack([a,b],axis=)<br>创造新的维度，然后拼接a,b</p>
-<p>3.tf.unstack(c,axis=)<br>stack的反操作 </p>
-<p>4.tf.split(c,axis=,num_or_size_splits=[])<br>可以指定打散后的数量和比例</p>
-<h2 id="数据统计"><a href="#数据统计" class="headerlink" title="数据统计"></a>数据统计</h2><p>1.tf.norm(a)<br>默认求二范数，没有指定哪个轴，求整体的范数</p>
-<p>2.tf.norm(a,ord=2,axis=1)<br>求a在轴1上的二范数</p>
-<p>3.tf.norm(a,ord=1)<br>求a的1范数</p>
-<p>4.tf.norm(a,ord=1,axis=0)<br>求a在轴0上的1范数</p>
-<p>5.tf.reduce_min(a),tf.reduce_max(a),tf.reduce_mean(a)<br>不指定维度的情况下默认打散到一维</p>
-<p>6.tf.reduce_min(a,axis=1),tf.reduce_max(a,axis=1),tf.reduce_mean(a,axis=1)<br>如果a.shape=([4,10]),  tf.reduce_min(a,axis=1)输出(4,)数组，其他两个同理</p>
-<p>7.tf.argmax(a),tf.argmin(a)<br>默认axis=0,若a.shape=([4,10])，输出(10,)数组</p>
-<p>8.tf.equal(a,b)<br>看两个数组是否相等，输出为a(a,b形状相同)的形状的数组，相同元素位置为True,不同则为False</p>
-<p>9.accuracy计算方法见ppt</p>
-<p>10.tf.unique(a)<br>去除a中相同元素，输出两个数组，第一个数去重后的数组，第二个是索引数组，具体见ppt  </p>
-<h2 id="张量排序"><a href="#张量排序" class="headerlink" title="张量排序"></a>张量排序</h2><p>1.tf.sort(a,direction=”DESCENDING”)<br>将a进行降序</p>
-<p>2.tf.argsort(a,dirction=”DESCENDING”)  返回索引数组，第一个元素是最大值在以前数组的索引，依次类推</p>
-<p>3.res=tf.math.top_k(a,2)<br>寻找最大值以及次大值和他们的索引，返回两个数组</p>
-<p>4.res.indices<br>返回索引，相当于tf.argsort()</p>
-<p>5.res.values 返回值</p>
-<p>6.TOP_K accuracy见ppt</p>
-<h2 id="填充和复制"><a href="#填充和复制" class="headerlink" title="填充和复制"></a>填充和复制</h2><p>1.a=tf.reshape(tf.range(9),[3,3])</p>
-<p>2.tf.pad(a,[[0,0],[0,0]]) 不填充</p>
-<p>3.tf.pad(a,[[1,0],[0,0]])<br>在行上面填充一行，默认用0填充</p>
-<p>4.tf.pad(a,[[1,1],[1,1]])<br>在数组的上下左右分别添加一行</p>
-<p>5.注意：a=tf.random.normal([4,28,28,3]) 四张28*28三通道照片</p>
-<p>6.b=tf.pad(a,[[0,0],[1,1],[1,1],[0,0]]) 每张照片的上下左右分别填充1行（列），照片数量和通道数没有改变</p>
-<h2 id="张量和限幅"><a href="#张量和限幅" class="headerlink" title="张量和限幅"></a>张量和限幅</h2><p>1.tf.maximum(a,2)<br>把a中比2小的元素用2替换掉</p>
-<p>2.tf.minimum(a,8)<br>把a中比8大的元素用8换掉</p>
-<p>3.tf.clip_by_value(a,2,8)<br>效果是上面两个相结合</p>
-<p>4.tf.nn.relu(a)<br>实现relu函数</p>
-<p>5.tf.clip_by_norm(a,15)<br>将a的二范数（a的模）放缩到15，效果是不改变a方向条件下改变a的模长</p>
-<p>6.new_grads,total_norm = tf.clip_by_global_norm(grads,25)<br>25为设定修改后w整体的二范数</p>
-<h2 id="高阶特性"><a href="#高阶特性" class="headerlink" title="高阶特性"></a>高阶特性</h2><p>1.tf.where(mask)<br>mask是布尔数组，返回值是其中元素为True的坐标</p>
-<p>2.tf.where(mask,a,b)<br>mask,a,b形状要相同，如果mask中某个位置元素为True,那么这个位置选a所在这个位置的元素，如果是False,选b的值 </p>
-<p>3.tf.scatter_nd()见ppt</p>
-<p>4.tf.meshgrid()见ppt</p>
+        <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">from tensorflow import keras</span><br><span class="line">from tensorflow.keras import datasets,layers,optimizers,Sequential,metrics</span><br><span class="line"></span><br><span class="line">def preprocess(x,y):</span><br><span class="line">    x &#x3D; tf.cast(x,dtype&#x3D;tf.float32)&#x2F;255.0     #转换类型并且归一化处理</span><br><span class="line">    y &#x3D; tf.cast(y,dtype&#x3D;tf.int32)</span><br><span class="line">    return x,y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(x,y),(x_test,y_test) &#x3D; datasets.fashion_mnist.load_data()</span><br><span class="line">print(x.shape,y.shape)</span><br><span class="line">batchsz &#x3D; 128</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">db &#x3D; tf.data.Dataset.from_tensor_slices((x,y))   #数据集对象实例化，方便以后进行迭代</span><br><span class="line">db &#x3D; db.map(preprocess).shuffle(10000).batch(batchsz)  #数据预处理</span><br><span class="line"></span><br><span class="line">db_test &#x3D; tf.data.Dataset.from_tensor_slices((x_test,y_test))   #数据集对象实例化，方便以后进行迭代</span><br><span class="line">db_test &#x3D; db_test.map(preprocess).batch(batchsz)  #数据预处理</span><br><span class="line"></span><br><span class="line">db_iter &#x3D; iter(db)</span><br><span class="line">sample &#x3D; next(db_iter)</span><br><span class="line">print(&quot;batch:&quot;,sample[0].shape,sample[1].shape)</span><br><span class="line"></span><br><span class="line">model &#x3D;Sequential([</span><br><span class="line">    layers.Dense(256,activation&#x3D;tf.nn.relu),   #[b,784]&#x3D;&gt;[b,256]</span><br><span class="line">    layers.Dense(128,activation&#x3D;tf.nn.relu),   #[b,256]&#x3D;&gt;[b,128]</span><br><span class="line">    layers.Dense(64,activation&#x3D;tf.nn.relu),    #[b,128]&#x3D;&gt;[b,64]</span><br><span class="line">    layers.Dense(32,activation&#x3D;tf.nn.relu),    #[b,64]&#x3D;&gt;[b,32]</span><br><span class="line">    layers.Dense(10,)    #[b,32]&#x3D;&gt;[b,10]</span><br><span class="line">]</span><br><span class="line">)</span><br><span class="line">model.build([None,28*28])   #输入维度</span><br><span class="line">model.summary()</span><br><span class="line">optimizer &#x3D; optimizers.Adam(lr &#x3D; 1e-3)  #w &#x3D; w - lr*grad</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    for epoch in range(30):</span><br><span class="line">        for step,(x,y) in enumerate(db):  #这边每个step包含128个数据 因为上面batch设置的</span><br><span class="line">            # x:[b,28,28]</span><br><span class="line">            # y:[b]</span><br><span class="line">            x &#x3D; tf.reshape(x,[-1,28*28])</span><br><span class="line"></span><br><span class="line">            with tf.GradientTape() as tape:</span><br><span class="line">                logits &#x3D; model(x)</span><br><span class="line">                y_onehot &#x3D; tf.one_hot(y,depth&#x3D;10)</span><br><span class="line">                loss &#x3D; tf.reduce_mean(tf.losses.MSE(y_onehot,logits))</span><br><span class="line">            grads &#x3D; tape.gradient(loss,model.trainable_variables)  #model.trainable_variables可以直接获得权重</span><br><span class="line">            optimizer.apply_gradients(zip(grads,model.trainable_variables)) #进行参数跟新</span><br><span class="line"></span><br><span class="line">            if step %100 &#x3D;&#x3D;0:</span><br><span class="line">                print(epoch,step,&quot;loss&quot;,loss)</span><br><span class="line">                print(x.shape)</span><br><span class="line"></span><br><span class="line">        total_correct &#x3D;0</span><br><span class="line">        total_num &#x3D;0</span><br><span class="line"></span><br><span class="line">        for x,y in db_test:</span><br><span class="line">            x &#x3D; tf.reshape(x,[-1,28*28])</span><br><span class="line">            logits &#x3D; model(x)</span><br><span class="line">            prob &#x3D; tf.nn.softmax(logits,axis&#x3D;1)</span><br><span class="line">            pred &#x3D; tf.argmax(prob,axis&#x3D;1)</span><br><span class="line">            pred &#x3D; tf.cast(pred,dtype&#x3D;tf.int32)  #如果不进行这步骤，那么下面进行对比时会因为类型不一样报错</span><br><span class="line">            correct &#x3D; tf.equal(pred,y)</span><br><span class="line">            correct &#x3D; tf.reduce_sum(tf.cast(correct,dtype&#x3D;tf.int32))</span><br><span class="line">            total_correct +&#x3D; int(correct)</span><br><span class="line">            total_num +&#x3D; x.shape[0]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        acc &#x3D; total_correct&#x2F;total_num</span><br><span class="line">        print(acc)</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D;&quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -319,13 +249,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/11/%E6%A8%A1%E7%B3%8A%E6%93%8D%E4%BD%9C%E5%92%8CEPF%E5%92%8C%E7%9B%B4%E6%96%B9%E5%9B%BE/" rel="prev" title="模糊操作和EPF和直方图">
-      <i class="fa fa-chevron-left"></i> 模糊操作和EPF和直方图
+    <a href="/2020/03/31/Tensorflow%E6%93%8D%E4%BD%9C/" rel="prev" title="Tensorflow操作">
+      <i class="fa fa-chevron-left"></i> Tensorflow操作
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/01/%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%ABdense%E5%AE%9E%E6%88%98/" rel="next" title="手写数字识别dense实战">
-      手写数字识别dense实战 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -385,7 +312,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensorflow基础操作"><span class="nav-number">1.</span> <span class="nav-text">Tensorflow基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建tensor"><span class="nav-number">1.1.</span> <span class="nav-text">创建tensor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引和切片"><span class="nav-number">1.2.</span> <span class="nav-text">索引和切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广播"><span class="nav-number">1.3.</span> <span class="nav-text">广播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学运算"><span class="nav-number">1.4.</span> <span class="nav-text">数学运算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tensorflow高阶操作"><span class="nav-number">2.</span> <span class="nav-text">tensorflow高阶操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#合并与分割"><span class="nav-number">2.1.</span> <span class="nav-text">合并与分割</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据统计"><span class="nav-number">2.2.</span> <span class="nav-text">数据统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#张量排序"><span class="nav-number">2.3.</span> <span class="nav-text">张量排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#填充和复制"><span class="nav-number">2.4.</span> <span class="nav-text">填充和复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#张量和限幅"><span class="nav-number">2.5.</span> <span class="nav-text">张量和限幅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高阶特性"><span class="nav-number">2.6.</span> <span class="nav-text">高阶特性</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
