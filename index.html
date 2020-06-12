@@ -206,7 +206,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-06 19:56:33" itemprop="dateModified" datetime="2020-06-06T19:56:33+08:00">2020-06-06</time>
+                <time title="修改时间：2020-06-12 19:53:05" itemprop="dateModified" datetime="2020-06-12T19:53:05+08:00">2020-06-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,10 +281,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-05-28 18:58:41 / 修改时间：23:12:22" itemprop="dateCreated datePublished" datetime="2020-05-28T18:58:41+08:00">2020-05-28</time>
+              <time title="创建时间：2020-05-28 18:58:41" itemprop="dateCreated datePublished" datetime="2020-05-28T18:58:41+08:00">2020-05-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-07 19:22:31" itemprop="dateModified" datetime="2020-06-07T19:22:31+08:00">2020-06-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -308,19 +314,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="更新源"><a href="#更新源" class="headerlink" title="更新源"></a>更新源</h1><h2 id="第一步-编辑系统源文件"><a href="#第一步-编辑系统源文件" class="headerlink" title="第一步 编辑系统源文件"></a>第一步 编辑系统源文件</h2><p>sudo nano /etc/apt/sources.list</p>
-<h2 id="第二步-修改"><a href="#第二步-修改" class="headerlink" title="第二步 修改"></a>第二步 修改</h2><p>将初始的源使用#注释掉，添加如下两行清华的镜像源。【注意】这里的树莓派系统是Raspbian-buster系统，在写系统源链接时要注意是buster，网上很多教程都是之前stretch版本，容易出错！<br>deb <a href="http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/" target="_blank" rel="noopener">http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/</a> buster main contrib non-free rpi<br>deb-src <a href="http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/" target="_blank" rel="noopener">http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/</a> buster main contrib non-free rpi</p>
-<h2 id="第三步-保存执行如下命令-sudo-apt-get-update，完成源的更新软件包索引。"><a href="#第三步-保存执行如下命令-sudo-apt-get-update，完成源的更新软件包索引。" class="headerlink" title="第三步 保存执行如下命令 sudo apt-get update，完成源的更新软件包索引。"></a>第三步 保存执行如下命令 sudo apt-get update，完成源的更新软件包索引。</h2><p>#安装leafpad<br>sudo pip install leafpad</p>
-<h1 id="安装pyenv"><a href="#安装pyenv" class="headerlink" title="安装pyenv"></a>安装pyenv</h1><h2 id="第一步-安装依赖"><a href="#第一步-安装依赖" class="headerlink" title="第一步 安装依赖"></a>第一步 安装依赖</h2><p>sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm</p>
-<h2 id="第二步-安装"><a href="#第二步-安装" class="headerlink" title="第二步 安装"></a>第二步 安装</h2><p>$ curl -L <a href="https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer" target="_blank" rel="noopener">https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer</a> | bash   这一步需要酸酸乳，在电脑上下载好命名abc传到树莓派上<br>执行 sudo chmod 755 abc 改权限<br>执行 ./abc    这边千万不要加sudo<br>会遇到一个warming, 将wanming的三行复制到.profile里面<br>执行 leafpad .profile<br>export PATH=”/home/pi/.pyenv/bin:$PATH”<br>eval “$(pyenv init -)”<br>eval “$(pyenv virtualenv -init -)”<br>将这三行复制到文件最下面 保存<br>执行 source .profile</p>
-<h2 id="第三步-安装初始py"><a href="#第三步-安装初始py" class="headerlink" title="第三步 安装初始py"></a>第三步 安装初始py</h2><p>pyenv install 3.7.3</p>
-<h2 id="第四步-创建环境"><a href="#第四步-创建环境" class="headerlink" title="第四步 创建环境"></a>第四步 创建环境</h2><p>pyenv virtualenv 3.7.3 py373 </p>
-<h2 id="第四步-进入环境"><a href="#第四步-进入环境" class="headerlink" title="第四步 进入环境"></a>第四步 进入环境</h2><p>pyenv activate py373<br>pyenv deactivate py373 (退出环境)</p>
-<h1 id="在pyenv环境中更换pip清华源"><a href="#在pyenv环境中更换pip清华源" class="headerlink" title="在pyenv环境中更换pip清华源"></a>在pyenv环境中更换pip清华源</h1><h2 id="执行以下指令"><a href="#执行以下指令" class="headerlink" title="执行以下指令"></a>执行以下指令</h2><p>pip install -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple" target="_blank" rel="noopener">https://pypi.tuna.tsinghua.edu.cn/simple</a> pip -U<br>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple" target="_blank" rel="noopener">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-<h1 id="在环境中安装jupyterlab"><a href="#在环境中安装jupyterlab" class="headerlink" title="在环境中安装jupyterlab"></a>在环境中安装jupyterlab</h1><h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>pip3 install jupyterlab</p>
-<h2 id="第二步-生成密钥"><a href="#第二步-生成密钥" class="headerlink" title="第二步 生成密钥"></a>第二步 生成密钥</h2><p>输入python 进入python环境<br>执行命令生成秘钥：<br>In [1]: from notebook.auth import passwd<br>In [2]: passwd()<br>Enter password:<br>Verify password:<br>Out[2]: &#39;sha1:3aa19817cfd5:f4d46129439a2de28aaaa03606360add7ae36323&#39;</p>
-<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>将ip设置为<em>，意味允许任何IP访问<br>c.NotebookApp.ip = &#39;</em>&#39;<br>这里的密码就是上边我们生成的那一串<br>c.NotebookApp.password = &#39;sha1:3aa19817cfd5:f4d46129439a2de28aaaa03606360add7ae36323&#39;<br>服务器上并没有浏览器可以供Jupyter打开<br>c.NotebookApp.open_browser = False<br>监听端口设置为8888或其他自己喜欢的端口<br>c.NotebookApp.port = 8888<br>允许远程访问<br>c.NotebookApp.allow_remote_access = True<br>保存退出<br>以上就是配置jupyter过程</p>
-<h1 id="安装tensorflow"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow</h1>
+          <h1 id="更新源"><a href="#更新源" class="headerlink" title="更新源"></a>更新源</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/28/%E6%A0%91%E8%8E%93%E6%B4%BEpython%E7%8E%AF%E5%A2%83%E9%9A%94%E7%A6%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
