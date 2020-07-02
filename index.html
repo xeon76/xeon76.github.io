@@ -175,6 +175,78 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/06/29/%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82-%E8%BE%93%E5%87%BA%E6%96%B9%E5%BC%8F-%E8%AF%AF%E5%B7%AE%E8%AE%A1%E7%AE%97-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
+      <meta itemprop="name" content="徐志强">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小强的秘密花园">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/29/%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82-%E8%BE%93%E5%87%BA%E6%96%B9%E5%BC%8F-%E8%AF%AF%E5%B7%AE%E8%AE%A1%E7%AE%97-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">全连接层+输出方式+误差计算+优化方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-29 22:10:02 / 修改时间：22:34:08" itemprop="dateCreated datePublished" datetime="2020-06-29T22:10:02+08:00">2020-06-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tensorflow/" itemprop="url" rel="index">
+                    <span itemprop="name">Tensorflow</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x = tf.random.normal([<span class="number">4</span>,<span class="number">784</span>])</span><br><span class="line">net = tf.keras.layers.Dense(<span class="number">512</span>) </span><br><span class="line">out = net(x)       <span class="comment">#这边会自动创建kernel和bias</span></span><br><span class="line">out.shape          <span class="comment">#[4,512]</span></span><br><span class="line">net.kernel.shape   <span class="comment">#[74,512]</span></span><br><span class="line">net.bias.shape     <span class="comment">#[512]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">net = tf.keras.layers.Dense(<span class="number">10</span>)</span><br><span class="line">net.bias</span><br><span class="line">输出:</span><br><span class="line">AttributeError:<span class="string">"Dense"</span> object has no attribute <span class="string">"bias"</span></span><br><span class="line"></span><br><span class="line">net.build(input_shape=(<span class="literal">None</span>,<span class="number">4</span>))   <span class="comment">#根据这边的设定确定kernel和bias</span></span><br><span class="line">net.kernel.shape   <span class="comment">#[4,10]</span></span><br><span class="line">net.bias.shape     <span class="comment">#[10]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">net = tf.keras.layers.Dense(<span class="number">10</span>)</span><br><span class="line">net.build(input_shape=(<span class="literal">None</span>,<span class="number">20</span>))</span><br><span class="line">net.kernel.shape   <span class="comment">#[20,10]</span></span><br><span class="line">net.bias.shape     <span class="comment">#[10]</span></span><br><span class="line">out = net(tf.random.randn((<span class="number">4</span>,<span class="number">12</span>)))</span><br><span class="line">输出：</span><br><span class="line">Matrix size-incompatible [<span class="number">4</span>,<span class="number">12</span>]  [<span class="number">20</span>,<span class="number">10</span>]</span><br><span class="line"></span><br><span class="line">out = net(tf.random.randn((<span class="number">4</span>,<span class="number">20</span>)))</span><br><span class="line">out.shape   <span class="comment">#[4,10]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow <span class="keyword">import</span> keras</span><br><span class="line"></span><br><span class="line">x = tf.random.normal([<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">model = keras.Sequential([</span><br><span class="line">	keras.layers.Dense(<span class="number">2</span>,activation=<span class="string">"relu"</span>),    <span class="comment">#第一层</span></span><br><span class="line">	keras.layers.Dense(<span class="number">2</span>,activation=<span class="string">"relu"</span>),    <span class="comment">#第二层</span></span><br><span class="line">	keras.layers.Dense(<span class="number">2</span>)                       <span class="comment">#第三层</span></span><br><span class="line">	])</span><br><span class="line">model.build(input_shape=[<span class="literal">None</span>,<span class="number">4</span>])</span><br><span class="line">model.summary   <span class="comment">#打印网络结构</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> model.trainable_variables: <span class="comment">#[w0,b0,w1,b1,w2,b2]   </span></span><br><span class="line">	print(p.name,p.shape)</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">dense/kernel:<span class="number">0</span> (<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line">dense/bias:<span class="number">0</span> (<span class="number">2</span>,)</span><br><span class="line">dense_1/kernel:<span class="number">0</span> (<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">dense_1/bias:<span class="number">0</span> (<span class="number">2</span>,)</span><br><span class="line">dense_2/kernel:<span class="number">0</span> (<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">dense_2/bias:<span class="number">0</span> (<span class="number">2</span>,)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/06/28/%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -891,83 +963,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/04/29/switch%E4%B8%8B%E8%BD%BD%E5%8A%A0%E9%80%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
-      <meta itemprop="name" content="徐志强">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小强的秘密花园">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/29/switch%E4%B8%8B%E8%BD%BD%E5%8A%A0%E9%80%9F/" class="post-title-link" itemprop="url">switch下载加速</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-04-29 13:27:22 / 修改时间：13:33:52" itemprop="dateCreated datePublished" datetime="2020-04-29T13:27:22+08:00">2020-04-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A8%B1%E4%B9%90/" itemprop="url" rel="index">
-                    <span itemprop="name">娱乐</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h1><p>打开SSR的选项设置，在本地连接里将允许来自局域网的连接框框点上。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/29/switch%E4%B8%8B%E8%BD%BD%E5%8A%A0%E9%80%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1040,7 +1035,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
