@@ -46,14 +46,17 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="过拟合">
+<meta property="og:type" content="article">
 <meta property="og:title" content="训练时的技巧">
 <meta property="og:url" content="https://xeon76.github.io/2020/07/13/%E8%AE%AD%E7%BB%83%E6%97%B6%E7%9A%84%E6%8A%80%E5%B7%A7/index.html">
 <meta property="og:site_name" content="小强的秘密花园">
+<meta property="og:description" content="过拟合">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-13T11:47:30.000Z">
-<meta property="article:modified_time" content="2020-07-13T11:47:30.963Z">
+<meta property="article:modified_time" content="2020-07-16T12:43:51.354Z">
 <meta property="article:author" content="徐志强">
+<meta property="article:tag" content="Tensorflow">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://xeon76.github.io/2020/07/13/%E8%AE%AD%E7%BB%83%E6%97%B6%E7%9A%84%E6%8A%80%E5%B7%A7/">
@@ -202,6 +205,24 @@
 
               <time title="创建时间：2020-07-13 19:47:30" itemprop="dateCreated datePublished" datetime="2020-07-13T19:47:30+08:00">2020-07-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-16 20:43:51" itemprop="dateModified" datetime="2020-07-16T20:43:51+08:00">2020-07-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tensorflow/" itemprop="url" rel="index">
+                    <span itemprop="name">Tensorflow</span>
+                  </a>
+                </span>
+            </span>
 
           
 
@@ -214,7 +235,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h1><a id="more"></a>
+
+<h1 id="交叉验证"><a href="#交叉验证" class="headerlink" title="交叉验证"></a>交叉验证</h1><p>通常数据集导入只有train,test部分，如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(x,y),(x_val,y_val)=datasets.mnist.load_data()</span><br><span class="line"></span><br><span class="line">db = tf.data.Dataset.from_tensor_slices((x,y))</span><br><span class="line">db = db.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz)</span><br><span class="line"></span><br><span class="line">ds_val = tf.data.Dataset.from_tensor_slices((x_val,y_val))</span><br><span class="line">ds_val = ds_val.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz)</span><br></pre></td></tr></table></figure>
+<p>如果想要三个部分train,val,test,如何办？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">(x,y),(x_val,y_val)=datasets.mnist.load_data()</span><br><span class="line"></span><br><span class="line">x_train,x_val = tf.split(x,num_or_size_splits=[<span class="number">50000</span>,<span class="number">10000</span>])</span><br><span class="line">y_train,y_val = tf.split(y,num_or_size_splits=[<span class="number">50000</span>,<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">db_train = tf.data.Dataset.from_tensor_slices((x_train,y_train))</span><br><span class="line">db_train = db_train.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz)</span><br><span class="line"></span><br><span class="line">db_val = tf.data.Dataset.from_tensor_slices((x_val,y_val))</span><br><span class="line">db_val = db_val.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz)</span><br><span class="line"></span><br><span class="line">db_test = tf.data.Dataset.from_tensor_slices((x_test,y_test))</span><br><span class="line">db_test = db_test.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz)</span><br><span class="line"></span><br><span class="line">network.compile(optimizer=optimizers.Adam(lr=<span class="number">0.01</span>),</span><br><span class="line">		loss=tf.losses.CategoricalCrossentropy(from_logits=<span class="literal">True</span>),</span><br><span class="line">		metrics=[<span class="string">'accuracy'</span>]</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">network.fit(db_train, epochs=<span class="number">5</span>, validation_data=db_val, validation_freq=<span class="number">2</span>)</span><br><span class="line">network.evaluate(db_test)</span><br></pre></td></tr></table></figure>
+<p>K-fold cross validation 对数据集分成N份，每次用N-1/N当train,1/N当val.<br>动态切割</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">500</span>):</span><br><span class="line">	idx = tf.range(<span class="number">60000</span>)</span><br><span class="line">	idx = tf.random.shuttle(idx)</span><br><span class="line">	x_train,y_train = tf.gather(x,idx=[:<span class="number">50000</span>]),tf.gather(y,idx=[:<span class="number">50000</span>])</span><br><span class="line">	x_val,y_val = tf.gather(x,idx=[<span class="number">-10000</span>:]),tf.gather(y,idx=[<span class="number">-10000</span>:])</span><br><span class="line"></span><br><span class="line">	db_train = tf.data.Dataset.from_tensor_slices((x_train,y_train))</span><br><span class="line">	db_train = db_train.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz)</span><br><span class="line"></span><br><span class="line">	db_val = tf.data.Dataset.from_tensor_slices((x_val,y_val))</span><br><span class="line">	db_val = db_val.map(preprocss).shuttle(<span class="number">60000</span>).batch(batchsz</span><br></pre></td></tr></table></figure>
+<p>keras调用api实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">network.fit(db_train_val,epochs=<span class="number">6</span>,validation_split=<span class="number">0.1</span>,validation_freq=<span class="number">2</span>)</span><br><span class="line"><span class="comment">#db_train_val总的数据集，不分train和val</span></span><br><span class="line"><span class="comment">#validation_split=0.1 按照9：1进行切割</span></span><br></pre></td></tr></table></figure>
+<h1 id="提前结束训练"><a href="#提前结束训练" class="headerlink" title="提前结束训练"></a>提前结束训练</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf </span><br><span class="line">early_stopping=tf.keras.callbacks.EarlyStopping(monitor=<span class="string">'val_loss'</span>, </span><br><span class="line">	                          min_delta=<span class="number">0</span>,</span><br><span class="line">                              patience=<span class="number">0</span>, verbose=<span class="number">0</span>, mode=<span class="string">'auto'</span>,</span><br><span class="line">                              baseline=<span class="literal">None</span>, restore_best_weights=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">model.fit(callbacks = [early_stopping])</span><br></pre></td></tr></table></figure>
+<p>参数介绍：<br>monitor: 被监测的数据。<br>min_delta: 在被监测的数据中被认为是提升的最小变化， 例如，小于 min_delta 的绝对变化会被认为没有提升。<br>patience: 没有进步的训练轮数，在这之后训练就会被停止。<br>verbose: 详细信息模式。<br>mode: {auto, min, max} 其中之一。<br>在 min 模式中， 当被监测的数据停止下降，训练就会停止；<br>在 max 模式中，当被监测的数据停止上升，训练就会停止；<br>在 auto 模式中，方向会自动从被监测的数据的名字中判断出来。<br>baseline: 要监控的数量的基准值。 如果模型没有显示基准的改善，训练将停止。<br>restore_best_weights: 是否从具有监测数量的最佳值的时期恢复模型权重。 如果为 False，则使用在训练的最后一步获得的模型权重。</p>
+<h1 id="regularization正则化"><a href="#regularization正则化" class="headerlink" title="regularization正则化"></a>regularization正则化</h1><p>方法一</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">l2_model = keras.models.Sequential([</span><br><span class="line">	keras.layers.Dense(<span class="number">16</span>,kernel_regularizer=keras.regularizers.l2(<span class="number">0.001</span>),</span><br><span class="line">			activation=tf.nn.relu,input_shape=(NUM_WORDS,)),</span><br><span class="line">	keras.layers.Dense(<span class="number">16</span>,kernel_regularizer=keras.regularizers.l2(<span class="number">0.001</span>),</span><br><span class="line">			activation=tf.nn.relu),</span><br><span class="line">	keras.layers.Dense(<span class="number">1</span>,activation.tf.nn.sigmod)]</span><br></pre></td></tr></table></figure>
+<p>方法二</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> step,(x,y) <span class="keyword">in</span> enumerate(db):</span><br><span class="line">	<span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line"></span><br><span class="line">		loss = tf.reduce_mean(tf.losses.catagorical_crossentropy(y_onehot,out,from_logits=<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line">		loss_regularization = []</span><br><span class="line">		<span class="keyword">for</span> p <span class="keyword">in</span> network.trainable_variables:</span><br><span class="line">			loss_regularization.append(tf.nn.l2_loss(p))</span><br><span class="line">		loss_regularization = tf.reduce_sum(tf.stack(loss_regularization))</span><br><span class="line"></span><br><span class="line">		loss = loss +<span class="number">0.0001</span>*loss_regularization</span><br><span class="line"></span><br><span class="line">	grad = tape.gradient(loss,network.trainable_variables)</span><br><span class="line">	optimizer.apply_gradients(zip(grads,network.trainable_variables))</span><br></pre></td></tr></table></figure>
+
+<h1 id="动量和学习率"><a href="#动量和学习率" class="headerlink" title="动量和学习率"></a>动量和学习率</h1><p>动量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optimizer = SGD(learning_rate=<span class="number">0.02</span>,momentum=<span class="number">0.9</span>)</span><br><span class="line">optimizer = RMSprop(learning_rate=<span class="number">0.02</span>,momentum=<span class="number">0.9</span>)</span><br><span class="line">optimizer = Adam(learning_rate=<span class="number">0.02</span>,beta_1=<span class="number">0.9</span>,beta_2=<span class="number">0.999</span>)</span><br></pre></td></tr></table></figure>
+<p>动态学习率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">optimizer = SGD(learning_rate=<span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">	optimizer.learning_rate = <span class="number">0.02</span>*(<span class="number">100</span>-epoch)/<span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="early-stop-和-dropout"><a href="#early-stop-和-dropout" class="headerlink" title="early stop 和 dropout"></a>early stop 和 dropout</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">network = Sequential([</span><br><span class="line">	layers.Dense(<span class="number">256</span>,activation=<span class="string">"relu"</span>),</span><br><span class="line">	layers.Dropout(<span class="number">0.5</span>),</span><br><span class="line">	layers.Dense(<span class="number">128</span>,activation=<span class="string">"relu"</span>),</span><br><span class="line">	layers.Dropout(<span class="number">0.5</span>),</span><br><span class="line">	layers.Dense(<span class="number">64</span>,activation=<span class="string">"relu"</span>),</span><br><span class="line">	layers.Dense(<span class="number">32</span>,activation=<span class="string">"relu"</span>),</span><br><span class="line">	layers.Dense(<span class="number">10</span>)</span><br><span class="line">	])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> step,(x,y) <span class="keyword">in</span> enumerate(db):</span><br><span class="line">	<span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">		x = tf.reshape(x,(<span class="number">-1</span>,<span class="number">28</span>*<span class="number">28</span>))</span><br><span class="line">		out =network(x,training=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">#test</span></span><br><span class="line">	out = network(x,training=<span class="literal">False</span>)</span><br><span class="line">	<span class="comment">#测试数据进行前向传播时不开启dropout层</span></span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
@@ -222,6 +267,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Tensorflow/" rel="tag"># Tensorflow</a>
+          </div>
 
         
 
@@ -232,7 +280,10 @@
     <a href="/2020/07/11/keras%E9%AB%98%E5%B1%82%E6%8E%A5%E5%8F%A3/" rel="prev" title="keras高层接口">
       <i class="fa fa-chevron-left"></i> keras高层接口
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/16/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="next" title="卷积神经网络">
+      卷积神经网络 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -292,6 +343,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#过拟合"><span class="nav-number">1.</span> <span class="nav-text">过拟合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交叉验证"><span class="nav-number">2.</span> <span class="nav-text">交叉验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提前结束训练"><span class="nav-number">3.</span> <span class="nav-text">提前结束训练</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#regularization正则化"><span class="nav-number">4.</span> <span class="nav-text">regularization正则化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动量和学习率"><span class="nav-number">5.</span> <span class="nav-text">动量和学习率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#early-stop-和-dropout"><span class="nav-number">6.</span> <span class="nav-text">early stop 和 dropout</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -307,7 +359,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
