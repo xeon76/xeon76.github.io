@@ -175,75 +175,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/07/31/%E5%81%9C%E6%AD%A2%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
-      <meta itemprop="name" content="徐志强">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小强的秘密花园">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/31/%E5%81%9C%E6%AD%A2%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">停止更新</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-07-31 23:29:13 / 修改时间：23:30:19" itemprop="dateCreated datePublished" datetime="2020-07-31T23:29:13+08:00">2020-07-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A8%B1%E4%B9%90/" itemprop="url" rel="index">
-                    <span itemprop="name">娱乐</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="停止更新，2021考完研后，开始更新"><a href="#停止更新，2021考完研后，开始更新" class="headerlink" title="停止更新，2021考完研后，开始更新"></a>停止更新，2021考完研后，开始更新</h1>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/07/26/YOLO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -275,7 +206,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-27 00:13:09" itemprop="dateModified" datetime="2020-07-27T00:13:09+08:00">2020-07-27</time>
+                <time title="修改时间：2020-10-11 20:03:27" itemprop="dateModified" datetime="2020-10-11T20:03:27+08:00">2020-10-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,7 +231,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="图片形状问题"><a href="#图片形状问题" class="headerlink" title="图片形状问题"></a>图片形状问题</h1><p>训练集<br>思路一<br>网络输入图片的形状是规定的，所以不同形状图片导入网络是需要进行resize,普通的resize会使图片发生变形，所以使用另一种缩放方式，对图片进行等比例缩放，然后进行padding,将他补成输形状，由于变形的问题，原来图片中的框框的中心点和长宽信息全部改变了，因此要进行相应的改变，图片原来的大小，缩放倍数这些信息全部放在img_info = dict()中，img_info[‘object’]这个列表存储的x1-y1-x2-y2-label信息，其中x1-y1-x2-y2要改成缩放后的信息，图片输入网络要用改变形状后的。<br>思路二<br>先对所有的图片进行形状处理，然后再打标签，这样节省了许多代码，相对于上面那个方法来说</p>
+          <h1 id="图片形状问题"><a href="#图片形状问题" class="headerlink" title="图片形状问题"></a>图片形状问题</h1><p>训练集<br>思路一<br>网络输入图片的形状是规定的，所以不同形状图片导入网络是需要进行resize,普通的resize会使图片发生变形，所以使用另一种缩放方式，对图片进行等比例缩放，然后进行padding,将他补成输形状，由于变形的问题，原来图片中的框框的中心点和长宽信息全部改变了，因此要进行相应的改变，图片原来的大小，缩放倍数这些信息全部放在img_info = dict()中，img_info[‘object’]这个列表存储的x1-y1-x2-y2-label信息，其中x1-y1-x2-y2要改成缩放后的信息，图片输入网络要用改变形状后的。</p>
+<p>思路二<br>先对所有的图片进行形状处理，然后再打标签，这样节省了许多代码，相对于上面那个方法来说</p>
+<p>思路三<br>用resize强行改变形状，并用它进行训练，但是测试集不用resize,而是对图片进行等比例缩放的方法，把他输入模型是否可以？</p>
 
       
     </div>
@@ -351,7 +284,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-22 20:21:06" itemprop="dateModified" datetime="2020-07-22T20:21:06+08:00">2020-07-22</time>
+                <time title="修改时间：2020-10-11 20:03:20" itemprop="dateModified" datetime="2020-10-11T20:03:20+08:00">2020-10-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -962,6 +895,89 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xeon76.github.io/2020/05/28/%E6%A0%91%E8%8E%93%E6%B4%BEpython%E7%8E%AF%E5%A2%83%E9%9A%94%E7%A6%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://raw.githubusercontent.com/xeon76/picture/xeon76-patch-1/nier.jpg">
+      <meta itemprop="name" content="徐志强">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小强的秘密花园">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/28/%E6%A0%91%E8%8E%93%E6%B4%BEpython%E7%8E%AF%E5%A2%83%E9%9A%94%E7%A6%BB/" class="post-title-link" itemprop="url">树莓派python环境隔离</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-28 18:58:41" itemprop="dateCreated datePublished" datetime="2020-05-28T18:58:41+08:00">2020-05-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-07 19:22:31" itemprop="dateModified" datetime="2020-06-07T19:22:31+08:00">2020-06-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/" itemprop="url" rel="index">
+                    <span itemprop="name">树莓派</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="更新源"><a href="#更新源" class="headerlink" title="更新源"></a>更新源</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/28/%E6%A0%91%E8%8E%93%E6%B4%BEpython%E7%8E%AF%E5%A2%83%E9%9A%94%E7%A6%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1034,7 +1050,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1088,7 +1104,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
